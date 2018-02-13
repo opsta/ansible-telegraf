@@ -1,0 +1,8 @@
+---
+- name: Add telegraf repository key
+  apt_key:
+    url: "{{ telegraf_apt_key_url }}"
+
+- name: Add telegraf apt-repository
+  apt_repository:
+    repo: "{{ telegraf_apt_repo }}"

@@ -1,0 +1,30 @@
+---
+- name: Set list of path to look for local Telegraf configuration directory
+  set_fact:
+    telegraf_search_config_paths: "{{ telegraf_search_config_paths }} + [ '{{ telegraf_search_config_path }}' ]"
+  with_items: "{{ group_names }}"
+
+- name: Check if Telegraf configuration directory exists
+  stat:
+    path: "{{ item }}"
+  register: telegraf_config_check
+  become: false
+  delegate_to: 127.0.0.1
+  with_first_found:
+    - files: "{{ telegraf_search_config_paths }}"
+      skip: true
+
+- name: Set Telegraf configuration directory
+  set_fact:
+    telegraf_host_config_path: "{{ telegraf_config_check.results[0].stat.path }}"
+  when:
+    - telegraf_config_check.results[0] is defined
+    - telegraf_config_check.results[0].stat is defined
+    - telegraf_config_check.results[0].stat.isdir
+
+- name: Check if Telegraf template configuration file is exists
+  stat:
+    path: "{{ telegraf_host_config_file_path }}"
+  become: false
+  delegate_to: 127.0.0.1
+  register: telegraf_config_check

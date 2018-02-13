@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: overskylab
+  description: Ansible role to install and config influxdb
+  company: "Opsta (Thailand) Co., Tld."
+  license: "MIT"
+  min_ansible_version: 2.2
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
+  galaxy_tags:
+    - influxdb
+    - database
+dependencies: []

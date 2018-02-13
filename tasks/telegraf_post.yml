@@ -1,0 +1,10 @@
+---
+- name: Copy Telegraf configuration file if host has it
+  template:
+    src: "{{ telegraf_host_config_file_path }}"
+    dest: "{{ telegraf_config_file_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  when: telegraf_config_check.stat.exists
+  notify: Restart telegraf

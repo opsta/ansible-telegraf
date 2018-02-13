@@ -1,0 +1,16 @@
+---
+telegraf_service_name: telegraf
+
+# Package variables
+telegraf_apt_key_url: https://repos.influxdata.com/influxdb.key
+telegraf_apt_repo: "deb https://repos.influxdata.com/{{ ansible_lsb.id|lower }} {{ ansible_lsb.codename|lower }} stable"
+
+# General variables
+telegraf_config_path: /etc/telegraf
+telegraf_config_file_name: telegraf.conf
+telegraf_config_file_path: "{{ telegraf_config_path }}/{{ telegraf_config_file_name }}"
+
+telegraf_search_config_path: "{{ playbook_dir }}/files/groups/{{ item }}/telegraf"
+telegraf_search_config_paths: []
+
+telegraf_host_config_file_path: "{{ telegraf_host_config_path | default(inventory_hostname) }}/telegraf.conf.j2"
