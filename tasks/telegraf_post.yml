@@ -8,3 +8,21 @@
     mode: 0644
   when: telegraf_config_check.stat.exists
   notify: Restart telegraf
+
+- name: Set telegraf plugins fact
+  set_fact:
+    telegraf_plugins_combined: "{{ telegraf_plugins_default + telegraf_plugins|default([]) }}"
+
+- name: Set templatized Telegraf configuration
+  template:
+    src: telegraf.conf.j2
+    dest: "{{ telegraf_config_file_path }}"
+    force: yes
+    backup: yes
+    owner: telegraf
+    group: telegraf
+    mode: 0744
+  when: not telegraf_config_check.stat.exists
+  notify: Restart telegraf
+
+- meta: flush_handlers
