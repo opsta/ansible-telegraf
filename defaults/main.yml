@@ -14,3 +14,63 @@ telegraf_search_config_path: "{{ playbook_dir }}/files/groups/{{ item }}/telegra
 telegraf_search_config_paths: []
 
 telegraf_host_config_file_path: "{{ telegraf_host_config_path | default(inventory_hostname) }}/telegraf.conf.j2"
+
+# Dynamic values style
+telegraf_tags: {}
+telegraf_agent_interval: 10s
+telegraf_round_interval: true
+telegraf_metric_batch_size: 1000
+telegraf_metric_buffer_limit: 10000
+telegraf_collection_jitter: 0s
+telegraf_flush_interval: 10s
+telegraf_flush_jitter: 0s
+telegraf_debug: false
+telegraf_quiet: false
+telegraf_hostname: "{{ ansible_hostname }}"
+telegraf_omit_hostname: false
+telegraf_install_url:
+telegraf_log_path: /var/log/telegraf
+telegraf_log_file: "{{ telegraf_log_path }}/telegraf_agent.log"
+
+## Output plugins
+# Reference for output plugins
+# NOTE: https://github.com/influxdata/telegraf/tree/release-1.5/plugins/outputs/influxdb
+telegraf_output_plugins:
+  - name: influxdb
+    options:
+      urls:
+        - http://example:8086
+      database: example
+      precision: s # optional
+      retention_policy: autogen # optional
+      write_consistency: any # optional
+      timeout: 5s # optional
+      username: example # optional
+      password: CHANGEME # optional
+      user_agent: telegraf # optional
+      insecure_skip_verify: false # optional
+
+## Default plugins
+telegraf_plugins_default:
+  - name: processes
+  - name: mem
+  - name: system
+  - name: disk
+  - name: diskio
+  - name: net
+  - name: cpu
+    options:
+      percpu: "true"
+      totalcpu: "true"
+      fielddrop:
+        - "time_*"
+
+## User plugins
+# telegraf_plugins:
+#   - name: powerdns
+#   - name: procstat
+#     options:
+#       pid_file: "/var/lib/neo4j/data/neo4j-service.pid"
+#       prefix: "neo4j_proc"
+
+
