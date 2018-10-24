@@ -95,7 +95,7 @@
 {% endif %}
 {% else %}
 {% if value == "true" or value == "false" or value is number %}
-    {{ key }} = {{ value }}
+    {{ key }} = {{ value | lower }}
 {% else %}
     {{ key }} = "{{ value }}"
 {% endif %}
