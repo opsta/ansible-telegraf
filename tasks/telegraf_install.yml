@@ -1,8 +1,6 @@
 ---
 - name: Install telegraf packages
   apt:
-    name: "{{ item }}"
+    name: "{{ telegraf_apt_package }}"
     state: present
     update_cache: yes
-  with_items:
-    - "{{ telegraf_apt_package }}"
